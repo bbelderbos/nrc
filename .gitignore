@@ -1,0 +1,6 @@
+*swp
+*pyc
+mail
+recipients
+article.cache
+testfiles/*
