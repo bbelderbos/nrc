@@ -32,8 +32,6 @@ def get_articles(html):
 def get_article_records(articles):
     for article in articles: 
         url = article['href']
-        if cache_link.link_in_cache(url):
-            continue
         tag = article.parent.find("h6", {"class": TAG_CLASS})
         headline = article.parent.find("h3", {"class": HEADLINE_CLASS})
         teaser = article.parent.find("div", {"class": TEASER_CLASS})
@@ -41,9 +39,14 @@ def get_article_records(articles):
             continue
         yield ArticleRecord(url=url, tag=tag.text, headline=headline.text, teaser=teaser.text)
 
-def generate_html_output(articles):
+def _article_in_cache(url):
+    return cache_link.link_in_cache(url)
+
+def generate_html_output(articles, cache_enabled=True):
     output = []
     for art_rec in get_article_records(articles):
+        if cache_enabled and _article_in_cache(art_rec.url):
+            continue
         cache_link.cache_link(art_rec.url)
         output.append(article_html.create_article_html(art_rec))
     return output
@@ -56,7 +59,7 @@ def mail_output(output):
 if __name__ == "__main__":
     html = get_html()
     articles = get_articles(html)
-    output = generate_html_output(articles)
+    output = generate_html_output(articles, cache_enabled=False)
     if output:
         print("New articles, sending digest mail")
         mail_output(output)
