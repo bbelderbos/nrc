@@ -8,7 +8,7 @@ class CacheLink:
     def __init__(self):
         self.cache_file = CACHE
         self._init_file()
-        self.records = []
+        self.records = {}
         self._load_cache()
 
     def _init_file(self):
@@ -18,7 +18,7 @@ class CacheLink:
 
     def _load_cache(self):
         with open(self.cache_file, "r") as f:
-            self.records = [record.strip() for record in f.readlines()]
+            self.records = {record.strip() for record in f.readlines()}
 
     def link_in_cache(self, url):
         return url in self.records
