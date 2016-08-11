@@ -53,7 +53,7 @@ def generate_html_output(articles, cache_enabled=True):
 
 def mail_output(output):
     mail = Mail()
-    subject = "NRC nieuws update"
+    subject = "NRC news digest (source: nrc.nl)"
     mail.send_email(subject, "\n".join(output))    
 
 if __name__ == "__main__":
