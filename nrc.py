@@ -68,7 +68,7 @@ def store_output(output):
 if __name__ == "__main__":
     html = get_html()
     articles = get_articles(html)
-    output = generate_html_output(articles, cache_enabled=False)
+    output = generate_html_output(articles)
     if output:
         print("New articles, storing and sending digest mail")
         store_output(output)
