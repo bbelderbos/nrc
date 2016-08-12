@@ -15,7 +15,8 @@ TAG_CLASS = "nmt-item__flag"
 HEADLINE_CLASS = "nmt-item__headline"
 TEASER_CLASS = "nmt-item__teaser"
 EMAIL_STORE = "emails"
-TODAY=time.strftime("%Y-%m-%d")
+DATE_HOUR = time.strftime("%Y-%m-%d_@%H")
+EXTENSION = ".html"
 
 ArticleRecord = namedtuple('ArticleRecord', 'url tag headline teaser')
 
@@ -61,7 +62,7 @@ def mail_output(output):
     mail.send_email(subject, "\n".join(output))    
 
 def store_output(output):
-    fname = os.path.join(EMAIL_STORE, TODAY + ".html")
+    fname = os.path.join(EMAIL_STORE, DATE_HOUR + EXTENSION)
     with open(fname, "w") as f:
         f.write("\n".join(output) + "\n")
 
