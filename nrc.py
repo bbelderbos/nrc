@@ -15,7 +15,7 @@ TAG_CLASS = "nmt-item__flag"
 HEADLINE_CLASS = "nmt-item__headline"
 TEASER_CLASS = "nmt-item__teaser"
 EMAIL_STORE = "emails"
-DATE_HOUR = time.strftime("%Y-%m-%d_@%H")
+DATE_HOUR = time.strftime("%Y-%m-%d_%H-%M")
 EXTENSION = ".html"
 
 ArticleRecord = namedtuple('ArticleRecord', 'url tag headline teaser')
@@ -58,7 +58,7 @@ def generate_html_output(articles, cache_enabled=True):
 
 def mail_output(output):
     mail = Mail()
-    subject = "NRC news digest (source: nrc.nl)"
+    subject = "NRC news digest %s (source: nrc.nl)" % DATE_HOUR
     mail.send_email(subject, "\n".join(output))    
 
 def store_output(output):
