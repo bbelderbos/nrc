@@ -3,3 +3,5 @@
 mail
 recipients
 article.cache
+emails/*
+!emails/readme

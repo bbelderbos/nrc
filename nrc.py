@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from collections import namedtuple
+import os
 import requests
+import time
 from article_html import ArticleHtml
 from cache_link import CacheLink
 from mail import Mail
@@ -12,6 +14,8 @@ LINK_CLASS = "nmt-item__link"
 TAG_CLASS = "nmt-item__flag"
 HEADLINE_CLASS = "nmt-item__headline"
 TEASER_CLASS = "nmt-item__teaser"
+EMAIL_STORE = "emails"
+TODAY=time.strftime("%Y-%m-%d")
 
 ArticleRecord = namedtuple('ArticleRecord', 'url tag headline teaser')
 
@@ -56,12 +60,18 @@ def mail_output(output):
     subject = "NRC news digest (source: nrc.nl)"
     mail.send_email(subject, "\n".join(output))    
 
+def store_output(output):
+    fname = os.path.join(EMAIL_STORE, TODAY + ".html")
+    with open(fname, "w") as f:
+        f.write("\n".join(output) + "\n")
+
 if __name__ == "__main__":
     html = get_html()
     articles = get_articles(html)
     output = generate_html_output(articles, cache_enabled=False)
     if output:
-        print("New articles, sending digest mail")
+        print("New articles, storing and sending digest mail")
+        store_output(output)
         mail_output(output)
     else:
         print("No new articles found")
