@@ -1,0 +1,19 @@
+components:
+- name: Article
+  include:
+  - /article_html.py
+- name: Cache
+  include:
+  - /cache_link.py
+- name: Mail
+  include:
+  - /mail.py
+- name: Main
+  include:
+  - /nrc.py
+
+languages:
+- name: python
+  test:
+    include:
+    - .*/test_nrc.py 
